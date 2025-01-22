@@ -1,0 +1,30 @@
+{
+  "Users": {
+    "POST /auth/register": "Register a new user",
+    "POST /auth/login": "Authenticate and return a JWT",
+    "GET /users/me": "Get current user profile",
+    "PATCH /users/me": "Update current user profile"
+  },
+  "Restaurants": {
+    "GET /restaurants": "Get all restaurants with optional filters (city, cuisine)",
+    "GET /restaurants/:id": "Get details of a single restaurant",
+    "POST /restaurants": "Create a new restaurant (Owner only)",
+    "PATCH /restaurants/:id": "Update a restaurant's details (Owner only)",
+    "DELETE /restaurants/:id": "Delete a restaurant (Owner only)"
+  },
+  "Menus": {
+    "GET /restaurants/:id/menu": "Get the menu of a restaurant",
+    "POST /restaurants/:id/menu": "Add a new item to the menu (Owner only)",
+    "PATCH /menu/:itemId": "Update a menu item (Owner only)",
+    "DELETE /menu/:itemId": "Delete a menu item (Owner only)"
+  },
+  "Reservations": {
+    "POST /reservations": "Create a reservation",
+    "GET /reservations": "Get reservations for the current user",
+    "PATCH /reservations/:id/status": "Update reservation status (Owner only)"
+  },
+  "Reviews": {
+    "POST /restaurants/:id/reviews": "Add a review for a restaurant",
+    "GET /restaurants/:id/reviews": "Get reviews for a restaurant"
+  }
+}
