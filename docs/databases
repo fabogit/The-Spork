@@ -1,13 +1,13 @@
 // PostgreSQL Schema
 model User {
-  id               Int      @id @default(autoincrement())
-  email            String   @unique
-  password         String
-  name             String
-  role             Role     @default(USER)
-  restaurantsOwned Int[] // IDs of restaurants owned by the user
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  role      Role      @default(USER)
+  restaurantsOwned Int[]  // IDs of restaurants owned by the user
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 enum Role {
@@ -22,43 +22,44 @@ model Restaurant {
   name      String
   location  Location
   cuisine   String[]
+  menu      Menu[]   // Embedded array of object Menu
   hours     Json
+  ownersId  Int[]    // IDs dei proprietari
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 type Location {
-  address   String
-  city      String
-  latitude  Float
-  longitude Float
+  address    String
+  city       String
+  latitude   Float
+  longitude  Float
 }
 
-model Menu {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  restaurantId String @db.ObjectId
-  name         String
-  price        Float
+type Menu {
+  id    String @default(auto()) @db.ObjectId
+  name  String
+  price Float
 }
 
 model Review {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  restaurantId String   @db.ObjectId
-  userId       Int
-  rating       Int // Scale of 1-5
-  comment      String
-  createdAt    DateTime @default(now())
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  restaurantId  String   @db.ObjectId
+  userId        Int
+  rating        Int      // Scale of 1-5
+  comment       String
+  createdAt     DateTime @default(now())
 }
 
 model Reservation {
-  id           String            @id @default(auto()) @map("_id") @db.ObjectId
-  restaurantId String            @db.ObjectId
-  userId       Int
-  date         DateTime
-  slot         String // E.g., "18:00-20:00"
-  status       ReservationStatus @default(PENDING)
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  restaurantId  String   @db.ObjectId
+  userId        Int
+  date          DateTime
+  slot          String   // E.g., "18:00-20:00"
+  status        ReservationStatus @default(PENDING)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 enum ReservationStatus {

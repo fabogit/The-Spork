@@ -3,20 +3,18 @@
     "POST /auth/register": "Register a new user",
     "POST /auth/login": "Authenticate and return a JWT",
     "GET /users/me": "Get current user profile",
-    "PATCH /users/me": "Update current user profile"
+    "PATCH /users/me": "Update current user profile",
+    "DELETE /users/:id": "Delete a user. Admin can delete any user; users can delete only their own account."
   },
   "Restaurants": {
     "GET /restaurants": "Get all restaurants with optional filters (city, cuisine)",
-    "GET /restaurants/:id": "Get details of a single restaurant",
-    "POST /restaurants": "Create a new restaurant (Owner only)",
+    "GET /restaurants/:id": "Get details of a single restaurant, including its menu",
+    "POST /restaurants": "Create a new restaurant (Admin only)",
     "PATCH /restaurants/:id": "Update a restaurant's details (Owner only)",
-    "DELETE /restaurants/:id": "Delete a restaurant (Owner only)"
-  },
-  "Menus": {
-    "GET /restaurants/:id/menu": "Get the menu of a restaurant",
-    "POST /restaurants/:id/menu": "Add a new item to the menu (Owner only)",
-    "PATCH /menu/:itemId": "Update a menu item (Owner only)",
-    "DELETE /menu/:itemId": "Delete a menu item (Owner only)"
+    "DELETE /restaurants/:id": "Delete a restaurant (Owner and Admin only)",
+    "POST /restaurants/:id/menu": "Add a new item to the restaurant's menu (Owner only)",
+    "PATCH /restaurants/:id/menu/:itemId": "Update a menu item (Owner only)",
+    "DELETE /restaurants/:id/menu/:itemId": "Delete a menu item (Owner only)"
   },
   "Reservations": {
     "POST /reservations": "Create a reservation",
@@ -25,6 +23,7 @@
   },
   "Reviews": {
     "POST /restaurants/:id/reviews": "Add a review for a restaurant",
-    "GET /restaurants/:id/reviews": "Get reviews for a restaurant"
+    "GET /restaurants/:id/reviews": "Get reviews for a restaurant",
+    "DELETE /reviews/:id": "Delete a review. Admin can delete any review; users can delete only their own reviews."
   }
 }
