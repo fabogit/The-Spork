@@ -42,6 +42,7 @@ type Menu {
   price Float
 }
 
+# TODO UPDATE schema
 model Review {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   restaurantId  String   @db.ObjectId
