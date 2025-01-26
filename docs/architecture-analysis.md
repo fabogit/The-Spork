@@ -3,7 +3,7 @@
 ## 1. API Gateway
 
 *   **Function:** Single entry point for all client requests.
-*   **Technologies:** NestJS, with support for gRPC and RabbitMQ.
+*   **Technologies:** NestJS, with support for tRPC and RabbitMQ.
 *   **Responsibilities:**
     *   Centralized authentication and authorization.
     *   Routing requests to the appropriate microservices.
@@ -14,7 +14,7 @@
 *   **User Service:**
     *   Manages user registration, authentication, and profiles.
     *   **Database:** PostgreSQL.
-    *   **Communication:** gRPC for synchronous operations (e.g., authentication) and RabbitMQ for asynchronous notifications/events.
+    *   **Communication:** tRPC for synchronous operations (e.g., authentication) and RabbitMQ for asynchronous notifications/events.
 *   **Restaurant Service:**
     *   Manages the creation, modification, and deletion of restaurants and menus.
     *   **Database:** MongoDB.

@@ -68,3 +68,103 @@ enum ReservationStatus {
   APPROVED
   REJECTED
 }
+
+# v2
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Service Schema
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  CUSTOMER
+  OWNER
+  ADMIN
+}
+
+datasource mongodb {
+  provider = "mongodb"
+  url      = env("MONGO_URL")
+}
+
+// Restaurant Service Schema
+model Restaurant {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  location    Location
+  cuisine     String[]
+  hours       Json
+  owners      String[]     @db.Array(ObjectId)
+  menu        Menu[]
+  rating      Float?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+type Location {
+  address     String
+  city        String
+  coordinates Coordinates
+}
+
+type Coordinates {
+  latitude  Float
+  longitude Float
+}
+
+model Menu {
+  name  String
+  price Float
+}
+
+// Review Service Schema
+model Review {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  user        Reviewer
+  restaurant  RestaurantRef
+  rating      Float
+  comment     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+type Reviewer {
+  id   String @db.ObjectId
+  name String
+}
+
+type RestaurantRef {
+  id String @db.ObjectId
+}
+
+// Reservation Service Schema
+model Reservation {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
+  restaurantId String   @db.ObjectId
+  date         DateTime
+  timeSlot     String
+  status       ReservationStatus
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum ReservationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

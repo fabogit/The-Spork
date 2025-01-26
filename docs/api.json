@@ -1,29 +1,137 @@
-{
-  "Users": {
-    "POST /auth/register": "Register a new user",
-    "POST /auth/login": "Authenticate and return a JWT",
-    "GET /users/me": "Get current user profile",
-    "PATCH /users/me": "Update current user profile",
-    "DELETE /users/:id": "Delete a user. Admin can delete any user; users can delete only their own account."
+[
+  {
+    "name": "User Service",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/auth/register",
+        "description": "Register a new user"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/login",
+        "description": "Authenticate and return a JWT"
+      },
+      {
+        "method": "GET",
+        "path": "/users/me",
+        "description": "Get current logged user profile"
+      },
+      {
+        "method": "PUT",
+        "path": "/users/:id",
+        "description": "Update an existing user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/users/:id",
+        "description": "Delete a user. Admin can delete any user; users can delete only their own account."
+      }
+    ]
   },
-  "Restaurants": {
-    "GET /restaurants": "Get all restaurants with optional filters (city, cuisine)",
-    "GET /restaurants/:id": "Get details of a single restaurant, including its menu",
-    "POST /restaurants": "Create a new restaurant (Admin only)",
-    "PATCH /restaurants/:id": "Update a restaurant's details (Owner only)",
-    "DELETE /restaurants/:id": "Delete a restaurant (Owner and Admin only)",
-    "POST /restaurants/:id/menu": "Add a new item to the restaurant's menu (Owner only)",
-    "PATCH /restaurants/:id/menu/:itemId": "Update a menu item (Owner only)",
-    "DELETE /restaurants/:id/menu/:itemId": "Delete a menu item (Owner only)"
+  {
+    "name": "Restaurant Service",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/restaurants",
+        "description": "Get all restaurants with optional filters (city, cuisine)"
+      },
+      {
+        "method": "GET",
+        "path": "/restaurants/:id",
+        "description": "Get details of a single restaurant, including its menu"
+      },
+      {
+        "method": "POST",
+        "path": "/restaurants",
+        "description": "Create a new restaurant (Admin only)"
+      },
+      {
+        "method": "PATCH",
+        "path": "/restaurants/:id",
+        "description": "Update a restaurant's details (Owner only)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/restaurants/:id",
+        "description": "Delete a restaurant (Owner and Admin only)"
+      },
+      {
+        "method": "POST",
+        "path": "/restaurants/:id/menu",
+        "description": "Add a new item to the restaurant's menu (Owner only)"
+      },
+      {
+        "method": "GET",
+        "path": "/restaurants/:id/menu",
+        "description": "Retrieve the menu for a specific restaurant"
+      },
+      {
+        "method": "PATCH",
+        "path": "/restaurants/:id/menu/:itemId",
+        "description": "Update a menu item (Owner only)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/restaurants/:id/menu/:itemId",
+        "description": "Delete a menu item (Owner only)"
+      }
+    ]
   },
-  "Reservations": {
-    "POST /reservations": "Create a reservation",
-    "GET /reservations": "Get reservations for the current user",
-    "PATCH /reservations/:id/status": "Update reservation status (Owner only)"
+  {
+    "name": "Review Service",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/restaurants/:id/reviews",
+        "description": "Retrieve reviews for a specific restaurant"
+      },
+      {
+        "method": "POST",
+        "path": "/restaurants/:id/reviews",
+        "description": "Add a review to a restaurant, users only"
+      },
+      {
+        "method": "PUT",
+        "path": "/reviews/:id",
+        "description": "Update an existing review, users can update only their own reviews"
+      },
+      {
+        "method": "DELETE",
+        "path": "/reviews/:id",
+        "description": "Delete a review. Admin can delete any review; users can delete only their own reviews."
+      }
+    ]
   },
-  "Reviews": {
-    "POST /restaurants/:id/reviews": "Add a review for a restaurant",
-    "GET /restaurants/:id/reviews": "Get reviews for a restaurant",
-    "DELETE /reviews/:id": "Delete a review. Admin can delete any review; users can delete only their own reviews."
+  {
+    "name": "Reservation Service",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/restaurants/:id/reservations",
+        "description": "Retrieve reservations for a restaurant, (Owner only)"
+      },
+      {
+        "method": "GET",
+        "path": "/users/:id/reservations",
+        "description": "Retrieve reservations for a user"
+      },
+      {
+        "method": "POST",
+        "path": "/reservations",
+        "description": "Create a new reservation"
+      },
+      {
+        "method": "PUT",
+        "path": "/reservations/:id",
+        "description": "Update reservation status (Owner only)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/reservations/:id",
+        "description": "Delete a reservation, users can delete only their own reservation"
+      }
+    ]
   }
-}
+]

@@ -23,12 +23,12 @@
         "name": "John Doe"
       },
       "rating": 5,
-      "comment": "Amazing food!",
+      "comment": "Great food!",
       "createdAt": "2025-01-24T14:00:00Z"
     }
     ```
 - **Consumers:**
-  - **Restaurant Service:** Updates the restaurant's average rating.
+  - **Restaurant Service:** Updates the average rating for the restaurant.
 
 #### 1.2 `PATCH /reviews/:id`
 
@@ -41,17 +41,24 @@
     ```json
     {
       "id": "rev_123",
+      "restaurant": {
+        "id": "rest_456"
+      },
+      "user": {
+        "id": 789,
+        "name": "John Doe"
+      },
       "rating": 4,
-      "comment": "Good, but could be better.",
-      "updatedAt": "2025-01-24T15:00:00Z"
+      "comment": "Good, but could be better!",
+      "updatedAt": "2025-01-24T16:00:00Z"
     }
     ```
 - **Consumers:**
-  - **Restaurant Service:** Recalculates the average rating based on the updated review.
+  - **Restaurant Service:** Recalculates the average rating for the restaurant.
 
 #### 1.3 `DELETE /reviews/:id`
 
-**Description:** Delete a review.
+**Description:** Delete an existing review.
 
 - **Event Produced:** `ReviewDeleted`
   - **Exchange:** `review_exchange`
@@ -60,11 +67,17 @@
     ```json
     {
       "id": "rev_123",
-      "deletedAt": "2025-01-24T16:00:00Z"
+      "restaurant": {
+        "id": "rest_456"
+      },
+      "user": {
+        "id": 789
+      },
+      "deletedAt": "2025-01-24T17:00:00Z"
     }
     ```
 - **Consumers:**
-  - **Restaurant Service:** Recalculates the average rating to exclude the deleted review.
+  - **Restaurant Service:** Updates the average rating for the restaurant.
 
 ---
 
@@ -77,44 +90,43 @@
   - **Bindings:**
     - Exchange: `review_exchange`
     - Routing Key: `review.created`
-  - **Purpose:** Ensures that review creation events are processed.
+  - **Purpose:** Handles review creation events.
 
 - **Queue:** `review_updated_queue`
 
   - **Bindings:**
     - Exchange: `review_exchange`
     - Routing Key: `review.updated`
-  - **Purpose:** Processes review updates.
+  - **Purpose:** Handles review update events.
 
 - **Queue:** `review_deleted_queue`
 
   - **Bindings:**
     - Exchange: `review_exchange`
     - Routing Key: `review.deleted`
-  - **Purpose:** Handles review deletions.
+  - **Purpose:** Handles review deletion events.
 
 #### Dependencies on Other Services:
 
 - **User Service:**
-  - Retrieves user details (ID and name) during review creation.
-  - Listens for `UserUpdated` and `UserDeleted` events to keep user details in reviews synchronized.
-    - **`UserUpdated`:** Updates the `user.name` field in associated reviews.
-    - **`UserDeleted`:** Either anonymizes the `user` field or handles the review accordingly (e.g., marking it as anonymous).
+
+  - Retrieves user details (e.g., name) during review creation.
+  - Listens for `UserUpdated` and `UserDeleted` events to update or remove user details in reviews.
 
 - **Restaurant Service:**
-  - Consumes review-related events to maintain accurate average ratings for restaurants.
+  - Consumes `ReviewCreated`, `ReviewUpdated`, and `ReviewDeleted` events to manage restaurant ratings.
 
 ---
 
 ### 3. Messaging Summary
 
-| **Event**        | **Exchange**      | **Routing Key**     | **Payload Example**                                               |
-| ----------------- | ----------------- | ------------------- | ----------------------------------------------------------------- |
-| `ReviewCreated`   | `review_exchange` | `review.created`    | `{ id, restaurantId, user, rating, comment, createdAt }`          |
-| `ReviewUpdated`   | `review_exchange` | `review.updated`    | `{ id, rating, comment, updatedAt }`                              |
-| `ReviewDeleted`   | `review_exchange` | `review.deleted`    | `{ id, deletedAt }`                                               |
-| `UserUpdated`     | `user_exchange`   | `user.updated`      | `{ id, name, updatedAt }`                                         |
-| `UserDeleted`     | `user_exchange`   | `user.deleted`      | `{ id, deletedAt }`                                               |
+| **Event**       | **Exchange**      | **Routing Key**  | **Payload Example**                                                      |
+| --------------- | ----------------- | ---------------- | ------------------------------------------------------------------------ |
+| `ReviewCreated` | `review_exchange` | `review.created` | `{ id, restaurant: {id}, user: {id, name}, rating, comment, createdAt }` |
+| `ReviewUpdated` | `review_exchange` | `review.updated` | `{ id, restaurant: {id}, user: {id, name}, rating, comment, updatedAt }` |
+| `ReviewDeleted` | `review_exchange` | `review.deleted` | `{ id, restaurant: {id}, user: {id}, deletedAt }`                        |
+| `UserUpdated`   | `user_exchange`   | `user.updated`   | `{ id, name, updatedAt }`                                                |
+| `UserDeleted`   | `user_exchange`   | `user.deleted`   | `{ id, deletedAt }`                                                      |
 
 ---
 
@@ -133,9 +145,9 @@
     "name": "John Doe"
   },
   "rating": 5,
-  "comment": "Amazing food!",
+  "comment": "Great food!",
   "createdAt": "2025-01-24T14:00:00Z",
-  "updatedAt": "2025-01-24T15:00:00Z"
+  "updatedAt": "2025-01-24T16:00:00Z"
 }
 ```
 
@@ -143,9 +155,15 @@
 
 ### 5. Suggestions for Implementation
 
-1. **Validation:** Ensure that the `userId` and `restaurantId` exist and are valid during review creation.
-2. **Error Handling:** Implement retries and Dead Letter Queues for failed event processing.
-3. **Data Synchronization:** Listen to `UserUpdated` and `UserDeleted` events to keep user details up-to-date.
-4. **Concurrency Management:** Prevent conflicts during simultaneous updates to reviews.
-5. **Scalability:** Index the `restaurantId` and `user.id` fields for efficient querying.
+1. **Validation:**
 
+   - Ensure the `restaurant.id` exists in the Restaurant Service.
+   - Validate `user.id` with the User Service during review creation.
+
+2. **Event Consistency:** Ensure atomic operations when emitting events to prevent data mismatches.
+
+3. **Error Handling:** Implement retries and Dead Letter Queues for failed event processing.
+
+4. **Scalability:** Use indexes on `restaurant.id` and `user.id` for efficient lookups.
+
+5. **Concurrency Management:** Prevent conflicts during simultaneous updates to reviews.
