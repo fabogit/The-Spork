@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "module": "commonjs",
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": false,
+    "outDir": "./dist",
+    "paths": {
+      "@app/config": [
+        "libs/config/src"
+      ],
+      "@app/config/*": [
+        "libs/config/src/*"
+      ],
+      "@app/database/mongo": [
+        "libs/database/mongo/src"
+      ],
+      "@app/database/mongo/*": [
+        "libs/database/mongo/src/*"
+      ],
+      "@app/database/nosql": [
+        "libs/database/nosql/src"
+      ],
+      "@app/database/nosql/*": [
+        "libs/database/nosql/src/*"
+      ],
+      "@app/database/sql": [
+        "libs/database/sql/src"
+      ],
+      "@app/database/sql/*": [
+        "libs/database/sql/src/*"
+      ],
+      "@app/messaging": [
+        "libs/messaging/src"
+      ],
+      "@app/messaging/*": [
+        "libs/messaging/src/*"
+      ],
+      "@app/trpc": [
+        "libs/trpc/src"
+      ],
+      "@app/trpc/*": [
+        "libs/trpc/src/*"
+      ]
+    },
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strictBindCallApply": false,
+    "strictNullChecks": true,
+    "target": "ES2024"
+  }
+}
