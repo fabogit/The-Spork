@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@the-spork/config": ["libs/config/src/index.ts"],
+      "@the-spork/messaging": ["libs/messaging/src/index.ts"],
+      "@the-spork/mongo": ["libs/mongo/src/index.ts"],
+      "@the-spork/shared": ["libs/shared/src/index.ts"],
+      "@the-spork/sql": ["libs/sql/src/index.ts"],
+      "@the-spork/validation": ["libs/validation/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

@@ -1,2 +1,1 @@
-export * from './messaging.module';
-export * from './messaging.service';
+export * from './lib/messaging.module';
